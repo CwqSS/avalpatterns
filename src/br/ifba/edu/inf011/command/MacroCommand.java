@@ -15,11 +15,20 @@ public class MacroCommand implements Command {
 	}
 	@Override
 	public Boolean execute() {
-		for(Command cmd : this. cmds) {
+		for(Command cmd : this.cmds) {
 			if(!cmd.execute()) {
 				return Boolean.FALSE;
 			}
 		}
 		return Boolean.TRUE;
+	}
+	@Override
+	public Boolean undo() {
+		for(Command cmd : this.cmds.reversed()) {
+			if(!cmd.undo()) {
+				return Boolean.FALSE;
+			}
+		}
+		return null;
 	}
 }

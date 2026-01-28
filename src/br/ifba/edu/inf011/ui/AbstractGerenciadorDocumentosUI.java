@@ -28,10 +28,7 @@ public abstract class AbstractGerenciadorDocumentosUI extends JFrame implements 
 	protected JPanelAreaEdicao areaEdicao;
 	protected JPanelListaDocumentos<String> barraDocs;
 	
-	protected List<Command> commandsHistory = new ArrayList<Command>();
-	
-	
-	//protected String[] tipos = {"Criminal", "Pessoal", "Exportação", "Confidencial"};
+	protected CommandHistory commandsHistory = new CommandHistory();
 	
 	protected Map<String, AutenticadorStrategy> tipos;
 	
@@ -109,5 +106,13 @@ public abstract class AbstractGerenciadorDocumentosUI extends JFrame implements 
 	
 	public GerenciadorDocumentoModel getController() {
 		return controller;
+	}
+	
+	protected void redo() {
+		commandsHistory.redo();
+	}
+	
+	protected void undo() {
+		commandsHistory.undo();
 	}
 }
