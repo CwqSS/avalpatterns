@@ -13,6 +13,7 @@ public class ProtectCommand implements Command {
 	private AbstractGerenciadorDocumentosUI context;
 	private GerenciadorDocumentoModel controller;
 	private Documento atual;
+	private Documento protegido;
 	
 	public ProtectCommand(AbstractGerenciadorDocumentosUI context, GerenciadorDocumentoModel controller, Documento atual) {
 		this.context = context;
@@ -33,8 +34,14 @@ public class ProtectCommand implements Command {
 
 	@Override
 	public Boolean undo() {
-		// TODO Auto-generated method stub
-		return null;
+		//todo
+		try {
+			this.controller.protegerDocumento(this.atual);
+			return Boolean.TRUE;
+		} catch (FWDocumentException e) {
+			JOptionPane.showMessageDialog(context, "Erro ao proteger: " + e.getMessage());
+			return Boolean.FALSE;
+		}
 	}
 
 }

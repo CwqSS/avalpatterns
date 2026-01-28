@@ -43,6 +43,7 @@ public class MyGerenciadorDocumentoUI extends AbstractGerenciadorDocumentosUI{
 		});
 		comandos.addOperacao("⏰ Redo", e -> this.redo());
 		comandos.addOperacao("⏰ Undo", e -> this.undo());
+		comandos.addOperacao("⏰ Consolidar", e -> this.clearHistory());
 		
 		return comandos;
 	}

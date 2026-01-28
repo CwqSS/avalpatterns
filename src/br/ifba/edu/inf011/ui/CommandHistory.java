@@ -18,14 +18,21 @@ public class CommandHistory {
 	}
 	
 	public void redo() {
+		if (redoStack.isEmpty()) return;
 		var cmd= redoStack.pop();
 		cmd.execute();
 		undoStack.push(cmd);
 	}
 	
 	public void undo() {
+		if (undoStack.isEmpty()) return;
 		var cmd= undoStack.pop();
 		cmd.undo();
 		redoStack.push(cmd);
+	}
+
+	public void clear() {
+		redoStack.clear();
+		undoStack.clear();
 	}
 }
