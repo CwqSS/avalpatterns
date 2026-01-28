@@ -1,13 +1,17 @@
 package br.ifba.edu.inf011.ui;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.swing.JOptionPane;
 
 import br.ifba.edu.inf011.af.DocumentOperatorFactory;
 import br.ifba.edu.inf011.model.FWDocumentException;
 import br.ifba.edu.inf011.model.documentos.Privacidade;
+import br.ifba.edu.inf011.strategy.AutenticadorStrategy;
+import br.ifba.edu.inf011.strategy.CurriculoAutenticadorStrategy;
 
 public class MyGerenciadorDocumentoUI extends AbstractGerenciadorDocumentosUI{
-	
 	
 	 public MyGerenciadorDocumentoUI(DocumentOperatorFactory factory) {
 		super(factory);
@@ -23,6 +27,13 @@ public class MyGerenciadorDocumentoUI extends AbstractGerenciadorDocumentosUI{
 		comandos.addOperacao("⏰ Urgente", e->this.tornarUrgente());
 		return comandos;
 	 }
+	
+	@Override
+	protected Map<String, AutenticadorStrategy> gerarDicionarioDeAutenticacao() {
+		var dict = new HashMap<String, AutenticadorStrategy>(super.gerarDicionarioDeAutenticacao());
+		dict.put("Curriculo", new CurriculoAutenticadorStrategy());
+		return dict;
+	}
 	
 	protected void criarDocumentoPublico() {
 		this.criarDocumento(Privacidade.PUBLICO);
@@ -69,8 +80,8 @@ public class MyGerenciadorDocumentoUI extends AbstractGerenciadorDocumentosUI{
 
 	private void criarDocumento(Privacidade privacidade) {
         try {
-            int tipoIndex = this.barraSuperior.getTipoSelecionadoIndice();
-            this.atual = this.controller.criarDocumento(tipoIndex, privacidade);
+        	String chaveSelecionada = this.barraSuperior.getSelected();
+        	this.atual = this.controller.criarDocumento(this.tipos.get(chaveSelecionada), privacidade);
             this.barraDocs.addDoc("[" + atual.getNumero() + "]");
             this.refreshUI();
         } catch (FWDocumentException e) {

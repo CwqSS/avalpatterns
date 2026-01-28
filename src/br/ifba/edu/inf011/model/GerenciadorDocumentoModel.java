@@ -7,6 +7,7 @@ import br.ifba.edu.inf011.af.DocumentOperatorFactory;
 import br.ifba.edu.inf011.model.documentos.Documento;
 import br.ifba.edu.inf011.model.documentos.Privacidade;
 import br.ifba.edu.inf011.model.operador.Operador;
+import br.ifba.edu.inf011.strategy.AutenticadorStrategy;
 
 public class GerenciadorDocumentoModel {
 
@@ -25,14 +26,14 @@ public class GerenciadorDocumentoModel {
         this.atual = null;
     }
 
-    public Documento criarDocumento(int tipoAutenticadorIndex, Privacidade privacidade) throws FWDocumentException {
+    public Documento criarDocumento(AutenticadorStrategy strategy, Privacidade privacidade) throws FWDocumentException {
         Operador operador = factory.getOperador();
         Documento documento = factory.getDocumento();
         
         operador.inicializar("jdc", "João das Couves");
         documento.inicializar(operador, privacidade);
-        
-        this.autenticador.autenticar(tipoAutenticadorIndex, documento);
+        this.autenticador.setStrategy(strategy);
+        this.autenticador.autenticar(documento);
         this.repositorio.add(documento);
         this.atual = documento;
         return documento;
