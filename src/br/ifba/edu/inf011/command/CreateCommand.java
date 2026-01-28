@@ -15,6 +15,8 @@ public class CreateCommand implements Command {
 	private Privacidade privacidade;
 	private AutenticadorStrategy strategy;
 	private JPanelListaDocumentos<String> barraDocs;
+	private Documento doc;
+	private String barraDocId;
 	
 	public CreateCommand(
 			AbstractGerenciadorDocumentosUI app,
@@ -33,10 +35,28 @@ public class CreateCommand implements Command {
 		Boolean result = Boolean.TRUE;
 		
 		try {
-        	Documento doc = app.getController().criarDocumento(strategy, privacidade);
-        	barraDocs.addDoc("[" + doc.getNumero() + "]");
+        	this.doc = app.getController().criarDocumento(strategy, privacidade);
+        	this.barraDocId = "[" + doc.getNumero() + "]";
+        	barraDocs.addDoc(barraDocId);
         	app.setAtual(doc);
         } catch (FWDocumentException e) {
+        	result = Boolean.FALSE;
+            JOptionPane.showMessageDialog(app, "Erro: " + e.getMessage());
+        }
+		
+		return result;
+	}
+
+	@Override
+	public Boolean undo() {
+		Boolean result = Boolean.TRUE;
+		
+		try {
+        	var repo = app.getController().getRepositorio();
+        	repo.remove(doc);
+        	barraDocs.removeDoc(barraDocId);
+        	app.setAtual(null);
+        } catch (Exception e) {
         	result = Boolean.FALSE;
             JOptionPane.showMessageDialog(app, "Erro: " + e.getMessage());
         }

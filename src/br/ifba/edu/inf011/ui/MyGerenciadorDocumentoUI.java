@@ -41,6 +41,8 @@ public class MyGerenciadorDocumentoUI extends AbstractGerenciadorDocumentosUI{
 			macro.add( new SignCommand(this, this.controller, this.atual));
 			this.executeCommand(macro);
 		});
+		comandos.addOperacao("⏰ Redo", e -> this.redo());
+		comandos.addOperacao("⏰ Undo", e -> this.undo());
 		
 		return comandos;
 	}

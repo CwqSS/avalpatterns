@@ -30,4 +30,10 @@ public class UrgentCommand implements Command {
 		}		
 	}
 
+	@Override
+	public Boolean undo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

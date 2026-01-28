@@ -32,6 +32,13 @@ public class JPanelListaDocumentos<T> extends JPanel{
         this.updateUI();
 	}
 	
+	public void removeDoc(T doc) {
+		DefaultListModel<T> model = (DefaultListModel<T>)this.listDocumentos.getModel(); 
+        model.removeElement(doc);
+        this.listDocumentos.setSelectedIndex(model.size() - 1);
+        this.updateUI();
+	}
+	
 	
 	public int getIndiceDocSelecionado() {
 		return this.listDocumentos.getSelectedIndex();

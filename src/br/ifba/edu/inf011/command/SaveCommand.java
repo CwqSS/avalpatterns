@@ -32,4 +32,10 @@ public class SaveCommand implements Command {
         }
 	}
 
+	@Override
+	public Boolean undo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
