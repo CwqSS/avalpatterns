@@ -6,6 +6,7 @@ import java.util.Map;
 import br.ifba.edu.inf011.af.DocumentOperatorFactory;
 import br.ifba.edu.inf011.command.Command;
 import br.ifba.edu.inf011.command.CreateCommand;
+import br.ifba.edu.inf011.command.MacroCommand;
 import br.ifba.edu.inf011.command.ProtectCommand;
 import br.ifba.edu.inf011.command.SaveCommand;
 import br.ifba.edu.inf011.command.SignCommand;
@@ -28,6 +29,19 @@ public class MyGerenciadorDocumentoUI extends AbstractGerenciadorDocumentosUI{
 		comandos.addOperacao("🔑 Proteger", e -> this.executeCommand(new ProtectCommand(this, this.controller, this.atual)));
 		comandos.addOperacao("✍️ Assinar", e -> this.executeCommand(new SignCommand(this, this.controller, this.atual)));
 		comandos.addOperacao("⏰ Urgente", e -> this.executeCommand(new UrgentCommand(this, this.controller, this.atual)));
+		comandos.addOperacao("⏰ Alterar e Assinar", e -> {
+			MacroCommand macro = new MacroCommand();
+			macro.add(new SaveCommand(this, this.controller, this.atual, this.areaEdicao));
+			macro.add(new SignCommand(this, this.controller, this.atual));
+			this.executeCommand(macro);
+		});
+		comandos.addOperacao("⏰ Priorizar", e -> {
+			MacroCommand macro = new MacroCommand();
+			macro.add(new UrgentCommand(this, this.controller, this.atual));
+			macro.add( new SignCommand(this, this.controller, this.atual));
+			this.executeCommand(macro);
+		});
+		
 		return comandos;
 	}
 	
