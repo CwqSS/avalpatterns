@@ -1,6 +1,8 @@
 package br.ifba.edu.inf011.ui;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.DefaultListModel;
@@ -10,6 +12,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import br.ifba.edu.inf011.af.DocumentOperatorFactory;
+import br.ifba.edu.inf011.command.Command;
 import br.ifba.edu.inf011.model.GerenciadorDocumentoModel;
 import br.ifba.edu.inf011.model.documentos.Documento;
 import br.ifba.edu.inf011.strategy.AutenticadorStrategy;
@@ -24,6 +27,9 @@ public abstract class AbstractGerenciadorDocumentosUI extends JFrame implements 
 	protected JPanelBarraSuperior<String> barraSuperior;
 	protected JPanelAreaEdicao areaEdicao;
 	protected JPanelListaDocumentos<String> barraDocs;
+	
+	protected List<Command> commandsHistory = new ArrayList<Command>();
+	
 	
 	//protected String[] tipos = {"Criminal", "Pessoal", "Exportação", "Confidencial"};
 	
@@ -90,7 +96,16 @@ public abstract class AbstractGerenciadorDocumentosUI extends JFrame implements 
         }
 	}
 
+	protected void executeCommand(Command command) {
+		commandsHistory.add(command);
+		command.execute();
+	}
+
+	public Documento getAtual() {
+		return atual;
+	}
 	
-
-
+	public void setAtual(Documento doc) {
+		atual = doc;
+	}
 }
