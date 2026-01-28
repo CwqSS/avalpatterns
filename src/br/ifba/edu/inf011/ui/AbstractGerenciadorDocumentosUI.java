@@ -97,15 +97,17 @@ public abstract class AbstractGerenciadorDocumentosUI extends JFrame implements 
 	}
 
 	protected void executeCommand(Command command) {
-		commandsHistory.add(command);
-		command.execute();
-	}
-
-	public Documento getAtual() {
-		return atual;
+		if(command.execute()) {
+			commandsHistory.add(command);
+			this.refreshUI();
+		}
 	}
 	
 	public void setAtual(Documento doc) {
 		atual = doc;
+	}
+	
+	public GerenciadorDocumentoModel getController() {
+		return controller;
 	}
 }

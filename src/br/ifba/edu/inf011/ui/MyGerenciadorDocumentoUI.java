@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.swing.JOptionPane;
 
 import br.ifba.edu.inf011.af.DocumentOperatorFactory;
+import br.ifba.edu.inf011.command.CreateCommand;
+import br.ifba.edu.inf011.command.Command;
 import br.ifba.edu.inf011.model.FWDocumentException;
 import br.ifba.edu.inf011.model.documentos.Privacidade;
 import br.ifba.edu.inf011.strategy.AutenticadorStrategy;
@@ -19,28 +21,20 @@ public class MyGerenciadorDocumentoUI extends AbstractGerenciadorDocumentosUI{
 
 	protected JPanelOperacoes montarMenuOperacoes() {
 		JPanelOperacoes comandos = new JPanelOperacoes();
-		comandos.addOperacao("➕ Criar Publico", e -> this.criarDocumentoPublico());
-		comandos.addOperacao("➕ Criar Privado", e -> this.criarDocumentoPrivado());
+		comandos.addOperacao("➕ Criar Publico", e -> this.criarDocumento(Privacidade.PUBLICO));
+		comandos.addOperacao("➕ Criar Privado", e -> this.criarDocumento(Privacidade.SIGILOSO));
 		comandos.addOperacao("💾 Salvar", e-> this.salvarConteudo());
 		comandos.addOperacao("🔑 Proteger", e->this.protegerDocumento());
 		comandos.addOperacao("✍️ Assinar", e->this.assinarDocumento());
 		comandos.addOperacao("⏰ Urgente", e->this.tornarUrgente());
 		return comandos;
-	 }
+	}
 	
 	@Override
 	protected Map<String, AutenticadorStrategy> gerarDicionarioDeAutenticacao() {
 		var dict = new HashMap<String, AutenticadorStrategy>(super.gerarDicionarioDeAutenticacao());
 		dict.put("Curriculo", new CurriculoAutenticadorStrategy());
 		return dict;
-	}
-	
-	protected void criarDocumentoPublico() {
-		this.criarDocumento(Privacidade.PUBLICO);
-	}
-	
-	protected void criarDocumentoPrivado() {
-		this.criarDocumento(Privacidade.SIGILOSO);
 	}
 	
 	protected void salvarConteudo() {
@@ -79,14 +73,10 @@ public class MyGerenciadorDocumentoUI extends AbstractGerenciadorDocumentosUI{
 	}	
 
 	private void criarDocumento(Privacidade privacidade) {
-        try {
-        	String chaveSelecionada = this.barraSuperior.getSelected();
-        	this.atual = this.controller.criarDocumento(this.tipos.get(chaveSelecionada), privacidade);
-            this.barraDocs.addDoc("[" + atual.getNumero() + "]");
-            this.refreshUI();
-        } catch (FWDocumentException e) {
-            JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
-        }
+		String chaveSelecionada = this.barraSuperior.getSelected();
+		AutenticadorStrategy strategy = this.tipos.get(chaveSelecionada);
+		Command command = new CreateCommand(this, privacidade, strategy, this.barraDocs);
+		this.executeCommand(command);
     }	
 	
 
