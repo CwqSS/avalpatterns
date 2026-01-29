@@ -13,6 +13,7 @@ public class SaveCommand implements Command {
 	private GerenciadorDocumentoModel controller;
 	private Documento atual;
 	private JPanelAreaEdicao areaEdicao;
+	private String last;
 	
 	public SaveCommand(AbstractGerenciadorDocumentosUI context, GerenciadorDocumentoModel controller, Documento atual, JPanelAreaEdicao areaEdicao) {
 		this.context = context;
@@ -24,6 +25,7 @@ public class SaveCommand implements Command {
 	@Override
 	public Boolean execute() {
 		try {
+			this.last = controller.getDocumentoAtual().getConteudo();
             controller.salvarDocumento(atual, areaEdicao.getConteudo());
             return Boolean.TRUE;
         } catch (Exception exception) {
@@ -34,8 +36,13 @@ public class SaveCommand implements Command {
 
 	@Override
 	public Boolean undo() {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			controller.salvarDocumento(atual, last);
+			return Boolean.TRUE;
+		} catch (Exception exception) {
+        	JOptionPane.showMessageDialog(context, "Erro ao Salvar: " + exception.getMessage());
+        	return Boolean.FALSE;
+        }
 	}
 
 }

@@ -24,7 +24,7 @@ public class ProtectCommand implements Command {
 	@Override
 	public Boolean execute() {
 		try {
-			this.controller.protegerDocumento(this.atual);
+			this.protegido = this.controller.protegerDocumento(this.atual);
 			return Boolean.TRUE;
 		} catch (FWDocumentException e) {
 			JOptionPane.showMessageDialog(context, "Erro ao proteger: " + e.getMessage());
@@ -34,14 +34,8 @@ public class ProtectCommand implements Command {
 
 	@Override
 	public Boolean undo() {
-		//todo
-		try {
-			this.controller.protegerDocumento(this.atual);
-			return Boolean.TRUE;
-		} catch (FWDocumentException e) {
-			JOptionPane.showMessageDialog(context, "Erro ao proteger: " + e.getMessage());
-			return Boolean.FALSE;
-		}
+		this.controller.atualizarRepositorio(protegido, atual);
+		return Boolean.TRUE;
 	}
 
 }
