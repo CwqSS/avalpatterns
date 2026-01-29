@@ -115,10 +115,12 @@ public abstract class AbstractGerenciadorDocumentosUI extends JFrame implements 
 	
 	protected void redo() {
 		commandsHistory.redo();
+		update();
 	}
 	
 	protected void undo() {
 		commandsHistory.undo();
+		update();
 	}
 	
 	protected void clearHistory() {
