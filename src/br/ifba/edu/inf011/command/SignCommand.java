@@ -12,18 +12,19 @@ public class SignCommand implements Command {
 
 	private AbstractGerenciadorDocumentosUI context;
 	private GerenciadorDocumentoModel controller;
-	private Documento atual;
+	private Documento assinado;
+	private Documento doc;
 	
-	public SignCommand(AbstractGerenciadorDocumentosUI context, GerenciadorDocumentoModel controller, Documento atual) {
+	public SignCommand(AbstractGerenciadorDocumentosUI context, GerenciadorDocumentoModel controller) {
 		this.context = context;
 		this.controller = controller;
-		this.atual = atual;
+		this.doc = this.controller.getDocumentoAtual();
 	}
 
 	@Override
 	public Boolean execute() {
 		try {
-			this.controller.assinarDocumento(this.atual);
+			this.assinado = this.controller.assinarDocumento(doc);
 			return Boolean.TRUE;
 		} catch (FWDocumentException e) {
 			JOptionPane.showMessageDialog(context, "Erro ao assinar: " + e.getMessage());
@@ -33,8 +34,8 @@ public class SignCommand implements Command {
 
 	@Override
 	public Boolean undo() {
-		// TODO Auto-generated method stub
-		return null;
+		this.controller.atualizarRepositorio(assinado, doc);
+		return Boolean.TRUE;
 	}
 
 }

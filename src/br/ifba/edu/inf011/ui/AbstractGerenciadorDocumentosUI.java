@@ -85,18 +85,23 @@ public abstract class AbstractGerenciadorDocumentosUI extends JFrame implements 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		if (!e.getValueIsAdjusting()) {
-			int index = this.barraDocs.getIndiceDocSelecionado();
-	        if (index != -1) {
-	            this.atual = controller.getRepositorio().get(index);
-	            this.refreshUI();
-	        }
+			update();
         }
 	}
 
+	private void update() {
+		int index = this.barraDocs.getIndiceDocSelecionado();
+        if (index != -1) {
+            this.atual = controller.getRepositorio().get(index);
+            controller.setDocumentoAtual(atual);
+            this.refreshUI();
+        }
+	}
+	
 	protected void executeCommand(Command command) {
 		if(command.execute()) {
 			commandsHistory.add(command);
-			this.refreshUI();
+			update();
 		}
 	}
 	

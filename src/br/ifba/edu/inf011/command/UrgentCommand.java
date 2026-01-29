@@ -11,18 +11,19 @@ public class UrgentCommand implements Command {
 
 	private AbstractGerenciadorDocumentosUI context;
 	private GerenciadorDocumentoModel controller;
-	private Documento atual;
+	private Documento doc;
+	private Documento urgente;
 	
-	public UrgentCommand(AbstractGerenciadorDocumentosUI context, GerenciadorDocumentoModel controller, Documento atual) {
+	public UrgentCommand(AbstractGerenciadorDocumentosUI context, GerenciadorDocumentoModel controller) {
 		this.context = context;
 		this.controller = controller;
-		this.atual = atual;
+		this.doc = this.controller.getDocumentoAtual();
 	}
 
 	@Override
 	public Boolean execute() {
 		try {
-			this.controller.tornarUrgente(this.atual);
+			this.urgente = this.controller.tornarUrgente(doc);
 			return Boolean.TRUE;
 		} catch (FWDocumentException e) {
 			JOptionPane.showMessageDialog(context, "Erro ao tornar urgente: " + e.getMessage());
@@ -32,8 +33,8 @@ public class UrgentCommand implements Command {
 
 	@Override
 	public Boolean undo() {
-		// TODO Auto-generated method stub
-		return null;
+		this.controller.atualizarRepositorio(urgente, doc);
+		return Boolean.TRUE;
 	}
 
 }
