@@ -25,13 +25,13 @@ public class MyGerenciadorDocumentoUI extends AbstractGerenciadorDocumentosUI{
 		JPanelOperacoes comandos = new JPanelOperacoes();
 		comandos.addOperacao("➕ Criar Publico", e -> this.criarDocumento(Privacidade.PUBLICO));
 		comandos.addOperacao("➕ Criar Privado", e -> this.criarDocumento(Privacidade.SIGILOSO));
-		comandos.addOperacao("💾 Salvar", e -> this.executeCommand(new SaveCommand(this, this.controller, this.atual, this.areaEdicao)));
+		comandos.addOperacao("💾 Salvar", e -> this.executeCommand(new SaveCommand(this, this.controller, this.atual, this.areaEdicao.getConteudo())));
 		comandos.addOperacao("🔑 Proteger", e -> this.executeCommand(new ProtectCommand(this, this.controller, this.atual)));
 		comandos.addOperacao("✍️ Assinar", e -> this.executeCommand(new SignCommand(this, this.controller)));
 		comandos.addOperacao("⏰ Urgente", e -> this.executeCommand(new UrgentCommand(this, this.controller)));
 		comandos.addOperacao("⏰ Alterar e Assinar", e -> {
 			MacroCommand macro = new MacroCommand();
-			macro.add(new SaveCommand(this, this.controller, this.atual, this.areaEdicao));
+			macro.add(new SaveCommand(this, this.controller, this.atual, this.areaEdicao.getConteudo()));
 			macro.add(new SignCommand(this, this.controller));
 			this.executeCommand(macro);
 		});
