@@ -26,13 +26,12 @@ public class GerenciadorDocumentoModel {
         this.atual = null;
     }
 
-    public Documento criarDocumento(AutenticadorStrategy strategy, Privacidade privacidade) throws FWDocumentException {
+    public Documento criarDocumento(Privacidade privacidade) throws FWDocumentException {
         Operador operador = factory.getOperador();
         Documento documento = factory.getDocumento();
         
         operador.inicializar("jdc", "João das Couves");
         documento.inicializar(operador, privacidade);
-        this.autenticador.setStrategy(strategy);
         this.autenticador.autenticar(documento);
         this.repositorio.add(documento);
         this.atual = documento;
@@ -92,5 +91,8 @@ public class GerenciadorDocumentoModel {
 		this.atual = doc;
 	}        
     
+	public void setStrategy(AutenticadorStrategy strategy) {
+		this.autenticador.setStrategy(strategy);
+	}
     
 }

@@ -56,9 +56,7 @@ public class MyGerenciadorDocumentoUI extends AbstractGerenciadorDocumentosUI{
 	}
 
 	private void criarDocumento(Privacidade privacidade) {
-		String chaveSelecionada = this.barraSuperior.getSelected();
-		AutenticadorStrategy strategy = this.tipos.get(chaveSelecionada);
-		Command command = new CreateCommand(this, privacidade, strategy, this.barraDocs);
+		Command command = new CreateCommand(this, privacidade, this.barraDocs);
 		this.executeCommand(command);
     }	
 	

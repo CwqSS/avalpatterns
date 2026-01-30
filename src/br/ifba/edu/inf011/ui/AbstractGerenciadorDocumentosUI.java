@@ -43,6 +43,8 @@ public abstract class AbstractGerenciadorDocumentosUI extends JFrame implements 
     	this.barraSuperior = new JPanelBarraSuperior<String>(tipos.keySet().toArray(new String[0]));
     	this.areaEdicao = new JPanelAreaEdicao();
     	this.barraDocs = new JPanelListaDocumentos<String>(this.listDocs, this);
+		this.barraSuperior.addActionListener(e -> this.setControllerStrategy());
+		setControllerStrategy();
     	this.montarAparencia();
     }
     
@@ -55,6 +57,11 @@ public abstract class AbstractGerenciadorDocumentosUI extends JFrame implements 
 			Map.entry("Exportação", new ExportacaoAutenticadorStrategy()),
 			Map.entry("Confidencial", new ConfidencialAutenticadorStrategy())
     	);
+    }
+    
+    private void setControllerStrategy() {
+    	var strat = tipos.get(this.barraSuperior.getSelected());
+		this.controller.setStrategy(strat);
     }
     
 	public void montarAparencia() {

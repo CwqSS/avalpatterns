@@ -1,6 +1,7 @@
 package br.ifba.edu.inf011.ui;
 
 import java.awt.FlowLayout;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
@@ -28,5 +29,7 @@ public class JPanelBarraSuperior<T> extends JPanel{
 		 return this.tipos.getSelectedIndex();
 	}
 	
-
+	public void addActionListener(ActionListener action) {
+		this.tipos.addActionListener(action);
+	}
 }
