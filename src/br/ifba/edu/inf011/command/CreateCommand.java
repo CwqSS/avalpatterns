@@ -13,7 +13,6 @@ public class CreateCommand extends LoggerCommand {
 
 	private AbstractGerenciadorDocumentosUI app;
 	private Privacidade privacidade;
-	private AutenticadorStrategy strategy;
 	private JPanelListaDocumentos<String> barraDocs;
 	private Documento doc;
 	private String barraDocId;
@@ -21,12 +20,10 @@ public class CreateCommand extends LoggerCommand {
 	public CreateCommand(
 			AbstractGerenciadorDocumentosUI app,
 			Privacidade privacidade,
-			AutenticadorStrategy strategy,
 			JPanelListaDocumentos<String> barraDocs
 		) {
 		this.app = app;
 		this.privacidade = privacidade;
-		this.strategy = strategy;
 		this.barraDocs = barraDocs;
 	}
 	
@@ -34,13 +31,21 @@ public class CreateCommand extends LoggerCommand {
 	public Boolean execute() {
 		Boolean result = Boolean.TRUE;
 		
+		if(doc != null) {
+			app.getController().getRepositorio().add(doc);
+			barraDocs.addDoc(barraDocId);
+			app.setAtual(doc);
+			super.armazenar(this, Boolean.TRUE);
+			return Boolean.TRUE;
+		}
+		
 		try {
-        	this.doc = app.getController().criarDocumento(strategy, privacidade);
+        	this.doc = app.getController().criarDocumento(privacidade);
         	this.barraDocId = "[" + doc.getNumero() + "]";
         	barraDocs.addDoc(barraDocId);
         	app.setAtual(doc);
         	super.armazenar(this, Boolean.TRUE);
-        } catch (FWDocumentException e) {
+        } catch (Exception e) {
         	result = Boolean.FALSE;
             JOptionPane.showMessageDialog(app, "Erro: " + e.getMessage());
         }
