@@ -3,7 +3,7 @@ package br.ifba.edu.inf011.command;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MacroCommand implements Command {
+public class MacroCommand extends LoggerCommand {
 	
 	private List<Command> cmds = new ArrayList<Command>();
 	
@@ -19,6 +19,7 @@ public class MacroCommand implements Command {
 			if(!cmd.execute()) {
 				return Boolean.FALSE;
 			}
+			super.armazenar(cmd, Boolean.TRUE);
 		}
 		return Boolean.TRUE;
 	}
@@ -28,6 +29,7 @@ public class MacroCommand implements Command {
 			if(!cmd.undo()) {
 				return Boolean.FALSE;
 			}
+			super.armazenar(cmd, Boolean.FALSE);
 		}
 		return null;
 	}

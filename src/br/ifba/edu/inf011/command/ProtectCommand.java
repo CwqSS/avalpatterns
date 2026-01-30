@@ -8,7 +8,7 @@ import br.ifba.edu.inf011.model.documentos.Documento;
 import br.ifba.edu.inf011.ui.AbstractGerenciadorDocumentosUI;
 import br.ifba.edu.inf011.ui.MyGerenciadorDocumentoUI;
 
-public class ProtectCommand implements Command {
+public class ProtectCommand extends LoggerCommand {
 
 	private AbstractGerenciadorDocumentosUI context;
 	private GerenciadorDocumentoModel controller;
@@ -25,6 +25,7 @@ public class ProtectCommand implements Command {
 	public Boolean execute() {
 		try {
 			this.protegido = this.controller.protegerDocumento(this.atual);
+			super.armazenar(this, Boolean.TRUE);
 			return Boolean.TRUE;
 		} catch (FWDocumentException e) {
 			JOptionPane.showMessageDialog(context, "Erro ao proteger: " + e.getMessage());
@@ -35,6 +36,7 @@ public class ProtectCommand implements Command {
 	@Override
 	public Boolean undo() {
 		this.controller.atualizarRepositorio(protegido, atual);
+		super.armazenar(this, Boolean.FALSE);
 		return Boolean.TRUE;
 	}
 

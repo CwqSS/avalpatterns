@@ -7,7 +7,7 @@ import br.ifba.edu.inf011.model.documentos.Documento;
 import br.ifba.edu.inf011.ui.AbstractGerenciadorDocumentosUI;
 import br.ifba.edu.inf011.ui.JPanelAreaEdicao;
 
-public class SaveCommand implements Command {
+public class SaveCommand extends LoggerCommand {
 
 	private AbstractGerenciadorDocumentosUI context;
 	private GerenciadorDocumentoModel controller;
@@ -27,6 +27,7 @@ public class SaveCommand implements Command {
 		try {
 			this.last = controller.getDocumentoAtual().getConteudo();
             controller.salvarDocumento(controller.getDocumentoAtual(), conteudo);
+            super.armazenar(this, Boolean.TRUE);
             return Boolean.TRUE;
         } catch (Exception exception) {
         	JOptionPane.showMessageDialog(context, "Erro ao Salvar: " + exception.getMessage());
@@ -38,6 +39,7 @@ public class SaveCommand implements Command {
 	public Boolean undo() {
 		try {
 			controller.salvarDocumento(doc, last);
+			super.armazenar(this, Boolean.FALSE);
 			return Boolean.TRUE;
 		} catch (Exception exception) {
         	JOptionPane.showMessageDialog(context, "Erro ao Salvar: " + exception.getMessage());

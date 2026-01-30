@@ -9,7 +9,7 @@ import br.ifba.edu.inf011.strategy.AutenticadorStrategy;
 import br.ifba.edu.inf011.ui.AbstractGerenciadorDocumentosUI;
 import br.ifba.edu.inf011.ui.JPanelListaDocumentos;
 
-public class CreateCommand implements Command {
+public class CreateCommand extends LoggerCommand {
 
 	private AbstractGerenciadorDocumentosUI app;
 	private Privacidade privacidade;
@@ -39,6 +39,7 @@ public class CreateCommand implements Command {
         	this.barraDocId = "[" + doc.getNumero() + "]";
         	barraDocs.addDoc(barraDocId);
         	app.setAtual(doc);
+        	super.armazenar(this, Boolean.TRUE);
         } catch (FWDocumentException e) {
         	result = Boolean.FALSE;
             JOptionPane.showMessageDialog(app, "Erro: " + e.getMessage());
@@ -56,6 +57,7 @@ public class CreateCommand implements Command {
         	repo.remove(doc);
         	barraDocs.removeDoc(barraDocId);
         	app.setAtual(null);
+        	super.armazenar(this, Boolean.FALSE);
         } catch (Exception e) {
         	result = Boolean.FALSE;
             JOptionPane.showMessageDialog(app, "Erro: " + e.getMessage());
