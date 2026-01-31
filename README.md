@@ -57,3 +57,7 @@ Invoker (MyGerenciadorDocumentoUi):
 Receiver (GerenciadorDocumentoModel, entre outros):
 
 - São as classes que sabem como executar as operações e são passadas para os ConcreteCommands.
+
+ADIÇÕES: COMPOSITE
+
+- Utilizamos o padrão composite para a construção do macro commands. O padrão forneceu uma interface transparente para que os objetos folha (commands) e os nós intermediários fossem tratados da mesma forma pelos cliente.
