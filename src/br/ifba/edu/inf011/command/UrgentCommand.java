@@ -23,6 +23,7 @@ public class UrgentCommand extends LoggerCommand {
 	@Override
 	public Boolean execute() {
 		try {
+			this.doc = this.controller.getRepositorio().stream().filter(d -> d.getNumero() == doc.getNumero()).findFirst().orElseThrow();
 			this.urgente = this.controller.tornarUrgente(doc);
 			super.armazenar(this, Boolean.TRUE);
 			return Boolean.TRUE;

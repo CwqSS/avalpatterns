@@ -2,10 +2,8 @@ package br.ifba.edu.inf011.command;
 
 import javax.swing.JOptionPane;
 
-import br.ifba.edu.inf011.model.FWDocumentException;
 import br.ifba.edu.inf011.model.documentos.Documento;
 import br.ifba.edu.inf011.model.documentos.Privacidade;
-import br.ifba.edu.inf011.strategy.AutenticadorStrategy;
 import br.ifba.edu.inf011.ui.AbstractGerenciadorDocumentosUI;
 import br.ifba.edu.inf011.ui.JPanelListaDocumentos;
 

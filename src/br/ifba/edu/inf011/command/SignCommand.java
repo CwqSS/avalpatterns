@@ -18,12 +18,13 @@ public class SignCommand extends LoggerCommand {
 	public SignCommand(AbstractGerenciadorDocumentosUI context, GerenciadorDocumentoModel controller) {
 		this.context = context;
 		this.controller = controller;
-		this.doc = this.controller.getDocumentoAtual();
+		this.doc = controller.getDocumentoAtual();
 	}
 
 	@Override
 	public Boolean execute() {
 		try {
+			this.doc = this.controller.getRepositorio().stream().filter(d -> d.getNumero() == doc.getNumero()).findFirst().orElseThrow();
 			this.assinado = this.controller.assinarDocumento(doc);
 			super.armazenar(this, Boolean.TRUE);
 			return Boolean.TRUE;
